@@ -1,4 +1,5 @@
 import getpass
+import os
 import sys
 
 import gmail  # github.com/charlierguo/gmail
@@ -38,7 +39,18 @@ def main():
         if args.content and args.content not in email.body:
             continue
 
-        print email.subject
+        subject = email.subject.replace('/', '_')
+        sent_at = email.sent_at.strftime('%Y-%m-%d %H%M')
+        sender = email.fr
+
+        seq = 0
+        filename = '%s - %s - %s.eml' % (subject, sender, sent_at)
+        while os.path.exists(filename):
+            seq += 1
+            filename = '%s - %s - %s.eml.%d' % (subject, sender, sent_at, seq)
+
+        with open(filename, 'w') as f:
+            print >> f, email.message
 
 
 if __name__ == '__main__':
