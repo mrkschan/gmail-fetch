@@ -26,7 +26,10 @@ def main():
     args = argparser.parse_args()
 
     username = args.username
-    password = args.password or getpass.getpass()
+    try:
+        password = args.password or getpass.getpass()
+    except KeyboardInterrupt:
+        sys.exit(1)
 
     mbox = gmail.login(username, password)
 
