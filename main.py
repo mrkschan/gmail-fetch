@@ -21,6 +21,8 @@ def main():
                            help='Filter email by label')
     argparser.add_argument('-c', '--content', type=str,
                            help='Filter email by content specified')
+    argparser.add_argument('-d', '--dir', type=str, default='.',
+                           help='Output directory')
     args = argparser.parse_args()
 
     username = args.username
@@ -45,11 +47,11 @@ def main():
 
         seq = 0
         filename = '%s - %s - %s.eml' % (subject, sender, sent_at)
-        while os.path.exists(filename):
+        while os.path.exists(os.path.join(args.dir, filename)):
             seq += 1
             filename = '%s - %s - %s.eml.%d' % (subject, sender, sent_at, seq)
 
-        with open(filename, 'w') as f:
+        with open(os.path.join(args.dir, filename), 'w') as f:
             print >> f, email.message
 
 
