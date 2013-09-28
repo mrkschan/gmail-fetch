@@ -13,7 +13,8 @@ except:
 
 
 def main():
-    argparser = argparse.ArgumentParser()
+    '''Fetch emails from Gmail and store them in local filesystem'''
+    argparser = argparse.ArgumentParser(description=main.__doc__)
     argparser.add_argument('username', type=str, help='Gmail account')
     argparser.add_argument('-p', type=str, dest='password',
                            help='Gmail account password')
