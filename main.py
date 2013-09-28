@@ -23,6 +23,8 @@ def main():
                            help='Filter email by content specified')
     argparser.add_argument('-d', '--dir', type=str, default='.',
                            help='Output directory')
+    argparser.add_argument('--trash', action='store_true',
+                           help='Trash the email after it is fetched')
     args = argparser.parse_args()
 
     username = args.username
@@ -56,6 +58,9 @@ def main():
 
         with open(os.path.join(args.dir, filename), 'w') as f:
             print >> f, email.message
+
+        if args.trash:
+            email.delete()
 
 
 if __name__ == '__main__':
