@@ -63,6 +63,9 @@ def main():
         if args.trash:
             email.delete()
 
+        del email.message
+        del email.body
+
 
 if __name__ == '__main__':
     main()
