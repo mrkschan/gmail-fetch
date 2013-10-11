@@ -18,9 +18,9 @@ def main():
     argparser.add_argument('username', type=str, help='Gmail account')
     argparser.add_argument('-p', type=str, dest='password',
                            help='Gmail account password')
-    argparser.add_argument('-l', '--label', type=str,
+    argparser.add_argument('--label', type=str,
                            help='Filter email by label')
-    argparser.add_argument('-c', '--content', type=str,
+    argparser.add_argument('--content', type=str,
                            help='Filter email by content specified')
     argparser.add_argument('-d', '--dir', type=str, default='.',
                            help='Output directory')
