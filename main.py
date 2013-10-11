@@ -1,3 +1,4 @@
+from datetime import datetime
 import getpass
 import os
 import sys
@@ -12,6 +13,9 @@ except:
     sys.exit(1)
 
 
+DATE_FORMAT = '%d-%b-%Y'
+
+
 def main():
     '''Fetch emails from Gmail and store them in local filesystem'''
     argparser = argparse.ArgumentParser(description=main.__doc__)
@@ -22,6 +26,15 @@ def main():
                            help='Filter email by label')
     argparser.add_argument('--content', type=str,
                            help='Filter email by content specified')
+    argparser.add_argument('--before', type=str,
+                           help=('Filter email received before the date in PDT '
+                                 '(%s)') % DATE_FORMAT)
+    argparser.add_argument('--after', type=str,
+                           help=('Filter email received after the date in PDT '
+                                 '(%s)') % DATE_FORMAT)
+    argparser.add_argument('--on', type=str,
+                           help=('Filter email received on the date in PDT '
+                                 '(%s)') % DATE_FORMAT)
     argparser.add_argument('-d', '--dir', type=str, default='.',
                            help='Output directory')
     argparser.add_argument('--trash', action='store_true',
@@ -42,7 +55,15 @@ def main():
             print >> sys.stderr, 'Specified label is not available.'
             sys.exit(1)
 
-    for email in mbox.mail():
+    mail_kwargs = {}
+    if args.before:
+        mail_kwargs['before'] = datetime.strptime(args.before, DATE_FORMAT)
+    if args.after:
+        mail_kwargs['after'] = datetime.strptime(args.after, DATE_FORMAT)
+    if args.on:
+        mail_kwargs['on'] = datetime.strptime(args.on, DATE_FORMAT)
+
+    for email in mbox.mail(**mail_kwargs):
         email.fetch()
         if args.content and args.content not in email.body:
             continue
