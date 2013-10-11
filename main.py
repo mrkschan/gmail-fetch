@@ -47,7 +47,9 @@ def main():
         if args.content and args.content not in email.body:
             continue
 
-        subject = email.subject.replace('/', '_')
+        subject = email.subject.replace('/', '_') \
+                               .replace('\r', '_') \
+                               .replace('\n', '_')
         sent_at = email.sent_at.strftime('%Y-%m-%d %H%M')
         sender = email.fr
 
