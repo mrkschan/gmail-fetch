@@ -2,6 +2,7 @@ from datetime import datetime
 import getpass
 import os
 import sys
+import time
 
 import gmail  # github.com/charlierguo/gmail
 
@@ -27,18 +28,21 @@ def main():
     argparser.add_argument('--content', type=str,
                            help='Filter email by content specified')
     argparser.add_argument('--before', type=str,
-                           help=('Filter email received before the date in PDT '
-                                 '(%s)') % DATE_FORMAT)
+                           help=('Filter email received before the date (%s) '
+                                 'in PDT') % DATE_FORMAT)
     argparser.add_argument('--after', type=str,
-                           help=('Filter email received after the date in PDT '
-                                 '(%s)') % DATE_FORMAT)
+                           help=('Filter email received after the date (%s) '
+                                 'in PDT') % DATE_FORMAT)
     argparser.add_argument('--on', type=str,
-                           help=('Filter email received on the date in PDT '
-                                 '(%s)') % DATE_FORMAT)
+                           help=('Filter email received on the date (%s) '
+                                 'in PDT') % DATE_FORMAT)
     argparser.add_argument('-d', '--dir', type=str, default='.',
                            help='Output directory')
     argparser.add_argument('--trash', action='store_true',
                            help='Trash the email after it is fetched')
+    argparser.add_argument('--pause', type=int, default=0,
+                           help=('Pause between fetching each message '
+                                 'for throttling, in second(s)'))
     args = argparser.parse_args()
 
     username = args.username
@@ -88,6 +92,9 @@ def main():
 
         del email.message
         del email.body
+
+        if args.pause:
+            time.sleep(args.pause)
 
 
 if __name__ == '__main__':
