@@ -15,6 +15,7 @@ except:
 
 
 DATE_FORMAT = '%d-%b-%Y'
+DATE_FORMAT_TEXT = DATE_FORMAT.replace('%', '')
 
 
 def main():
@@ -29,13 +30,13 @@ def main():
                            help='Filter email by content specified')
     argparser.add_argument('--before', type=str,
                            help=('Filter email received before the date (%s) '
-                                 'in PDT') % DATE_FORMAT)
+                                 'in PDT') % DATE_FORMAT_TEXT)
     argparser.add_argument('--after', type=str,
                            help=('Filter email received after the date (%s) '
-                                 'in PDT') % DATE_FORMAT)
+                                 'in PDT') % DATE_FORMAT_TEXT)
     argparser.add_argument('--on', type=str,
                            help=('Filter email received on the date (%s) '
-                                 'in PDT') % DATE_FORMAT)
+                                 'in PDT') % DATE_FORMAT_TEXT)
     argparser.add_argument('-d', '--dir', type=str, default='.',
                            help='Output directory')
     argparser.add_argument('--trash', action='store_true',
